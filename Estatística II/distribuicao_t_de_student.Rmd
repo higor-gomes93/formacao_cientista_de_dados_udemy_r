@@ -1,0 +1,26 @@
+---
+Sessão 18 - Prática em R - Estatística II
+Distribuição T de Student
+---
+
+Salário de cientistas 75 por hora. Amostra 9. S = 10. Qual a probabilidade de ser menor que 80 por hora?
+- Cálculo de t:
+  t = (X - x)/(S/n^0.5) = (80 - 75)/(10/9^0.5) = 1.5
+- Graus de liberdade:
+  to = n - 1 = 9 - 1 = 8
+```{r}
+pt(1.5, 8)
+```
+
+Qual a probabilidade de ser maior que 80 por hora?
+```{r}
+pt(1.5, 8, lower.tail = FALSE)
+# ou
+1 - pt(1.5, 8)
+```
+
+Somando as duas caudas
+```{r}
+pt(1.5, 8) + pt(1.5, 8, lower.tail = F)
+```
+

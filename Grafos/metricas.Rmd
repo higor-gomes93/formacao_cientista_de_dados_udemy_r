@@ -1,0 +1,52 @@
+---
+Sessão 36 - Prática em R - Grafos
+Métricas
+---
+
+```{r}
+library(igraph)
+```
+
+Métricas
+```{r}
+# Carregamos um grafo de relacionamentos, 53 vértices e 179 arestas
+grafo = read_graph("Grafo.graphml", format = c("graphml"))
+# 53 vértices e 179 arestas
+grafo
+plot(grafo)
+# Grau de entrada e saída
+degree(grafo, mode = "all")
+# Entrada
+degree(grafo, mode = "in")
+# Saída
+degree(grafo, mode = "out")
+
+# Colocando o grau no tamanho do vértice
+grau = degree(grafo, mode = "in")
+plot(grafo, vertex.size = grau)
+```
+
+Mais métricas
+```{r}
+# Diâmetro (maior distância entre diferentes vértices)
+diameter(grafo, directed = T)
+diameter(grafo, directed = F)
+
+# Vértices que formam o diâmetro
+get_diameter(grafo, directed = T)
+get_diameter(grafo, directed = F)
+```
+
+Mais métricas
+```{r}
+# Vizinhança, zero inclui o próprio vértice, mode all não considera a direção
+neighborhood(grafo, 0, mode = c("all"))
+
+# Densidade do grafo
+edge_density(grafo)
+
+# Teste de isomorfismo
+grafo2 = grafo
+isomorphic(grafo, grafo2)
+```
+

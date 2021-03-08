@@ -1,0 +1,168 @@
+---
+Sessão 9 - Prática em R - Limpeza e Tratamento de Dados
+Faça você mesmo
+---
+
+Realizar o tratamento dos dados 'tempo.csv'. Domínios:
+
+- Aparência: sol, nublado, chuva
+- Temperatura: -130ºF ~ 130ºF
+- Umidade: 0 ~ 100
+- Jogar: sim/nao
+
+Além disso, tratar valores NAs.
+
+
+1. Importando os dados
+```{r}
+dados = read.csv("tempo.csv", sep = ";", na.strings = "", stringsAsFactors = TRUE)
+dados
+head(dados)
+summary(dados)
+```
+
+2. Nomes das colunas
+```{r}
+colnames(dados)
+
+# Os nomes já estão adequados
+
+head(dados)
+```
+
+3. Colunas categóricas
+```{r}
+# Aparência
+grafico_1 = table(dados$Aparencia)
+barplot(grafico_1, main = "Aparência", xlab = "Aparência")
+
+# Vento
+grafico_2 = table(dados$Vento)
+barplot(grafico_2, main = "Vento", xlab = "Vento")
+
+# Jogar
+grafico_3 = table(dados$Jogar)
+barplot(grafico_3, main = "Jogar", xlab = "Jogar")
+```
+
+4. Colunas numéricas
+```{r}
+# Temperatura
+summary(dados$Temperatura)
+boxplot(dados$Temperatura)
+boxplot(dados$Temperatura, outline = FALSE)
+hist(dados$Temperatura)
+
+# Umidade
+summary(dados$Umidade)
+boxplot(dados$Umidade)
+boxplot(dados$Umidade, outline = FALSE)
+hist(dados$Umidade)
+```
+
+5. Valores faltantes - NAs
+```{r}
+# Checando onde estão os valores faltantes
+dados[!complete.cases(dados), ]
+
+# Consigo saber em quais linhas e colunas temos os valores NAs - Umidade e Vento
+```
+
+6. Tratando a primeira coluna - Aparência
+```{r}
+# Ver valores
+unique(dados$Aparencia)
+summary(dados$Aparencia)
+
+# De acordo com o enunciado, temos apenas os levels chuva, nublado e sol
+
+# Substituindo o level "menos" pela moda (chuva)
+dados[dados$Aparencia == "menos", ]$Aparencia = "chuva"
+
+# Visualizando novamente
+summary(dados$Aparencia)
+
+# Removendo os levels não utilizados
+dados$Aparencia = factor(dados$Aparencia)
+
+# Checando
+unique(dados$Aparencia)
+summary(dados$Aparencia)
+barplot(table(dados$Aparencia))
+```
+
+7. Tratando a segunda coluna - Temperatura
+```{r}
+# Visualizando os dados
+summary(dados$Temperatura)
+
+# De acordo com o enunciado, o domínio da temperatura vai de -130 a 130
+# Temos temperaturas acima do máximo
+
+# Encontrar temperaturas fora do domínio
+dados[dados$Temperatura < -130 | dados$Temperatura > 130, ]$Temperatura
+
+# Encontrando a mediana
+median(dados$Temperatura)
+
+# Substituindo os dados fora do domínio pela mediana
+dados[dados$Temperatura < -130 | dados$Temperatura > 130, ]$Temperatura = median(dados$Temperatura)
+
+# Checando dados fora de domínio novamente
+dados[dados$Temperatura < -130 | dados$Temperatura > 130, ]$Temperatura
+
+# Visualizando os dados
+summary(dados$Temperatura)
+```
+
+8. Tratando a terceira coluna - Umidade
+```{r}
+# Visualizando os dados
+summary(dados$Umidade)
+
+# De acordo com o enunciado, o domínio da umidade vai de 0 a 100
+# Temos umidades acima do máximo e valores NAs
+
+# Buscando os valores fora do domínio
+dados[dados$Umidade < 0 | dados$Umidade > 100, ]$Umidade
+
+# Buscando os valores faltantes
+dados[!complete.cases(dados$Umidade), ]
+
+# Encontrando a mediana
+median(dados$Umidade, na.rm = TRUE)
+
+# Substituindo os valores fora de domínio e faltantes pela mediana
+dados[dados$Umidade < 0 | dados$Umidade > 100 | is.na(dados$Umidade), ]$Umidade = median(dados$Umidade, na.rm = TRUE)
+
+# Visualizando os dados novamente
+summary(dados$Umidade)
+dados[dados$Umidade < 0 | dados$Umidade > 100, ]$Umidade
+dados[!complete.cases(dados$Umidade), ]
+```
+
+9. Tratando a quarta coluna - Vento
+```{r}
+# Visualizando os dados
+unique(dados$Vento)
+summary(dados$Vento)
+
+# Existe um valor NA
+
+# Substituindo o valor NA pela moda (FALSO)
+dados[is.na(dados$Vento), ]$Vento = "FALSO"
+
+# Checando
+unique(dados$Vento)
+summary(dados$Vento)
+barplot(table(dados$Vento))
+```
+
+10. Tratando a quinta coluna - Jogar
+```{r}
+# Visualizando os dados
+unique(dados$Jogar)
+summary(dados$Jogar)
+
+# Os dados já estão adequados
+```

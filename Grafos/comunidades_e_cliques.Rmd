@@ -1,0 +1,44 @@
+---
+Sessão 36 - Prática em R - Grafos
+Comunidades e Cliques
+---
+
+```{r}
+library(igraph)
+grafo = read_graph("Grafo.graphml", format = c("graphml"))
+grafo = as.undirected(grafo)
+```
+
+Comunidades
+```{r}
+# Detecta comunidades
+comun = cluster_edge_betweenness(grafo)
+# Visualizando
+comun
+# Cada vértice para qual comunidade pertence
+comun$membership
+# Impressão usando cor para comunidade
+plot(grafo, vertex.color = comun$membership)
+tkplot(grafo, vertex.color = comun$membership)
+```
+
+Recriamos o grao
+```{r}
+dist = graph(edges = c("A", "C", "A", "B", "B", "E", "B", "F", "C", "D", "G", "H", "D", "H", "E", "H", "F", "G"), directed = TRUE)
+```
+
+```{r}
+comun = cluster_edge_betweenness(dist)
+comun
+comun$membership
+plot(dist, vertex.color = comun$membership, edge.color = "gray")
+```
+
+Detecção de cliques
+```{r}
+# min é o número mínimo de membros
+cli = cliques(as.undirected(grafo), min = 4)
+length(cli)
+cli
+```
+

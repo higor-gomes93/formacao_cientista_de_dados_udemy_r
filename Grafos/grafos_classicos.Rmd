@@ -1,0 +1,37 @@
+---
+Sessão 36 - Prática em R - Grafos
+Grafos Clássicos
+---
+
+```{r}
+install.packages("igraphdata")
+library(igraph)
+library(igraphdata)
+```
+
+12 grafos clássicos
+Pontes de Koenigsberg
+```{r}
+data("Koenigsberg")
+Koenigsberg
+plot(Koenigsberg)
+# Graus ímpares, não é um grafo euleriano
+degree(Koenigsberg, mode = "all")
+```
+
+Rede social básica
+```{r}
+data("kite")
+degree(kite, mode = "all")
+plot(kite)
+```
+
+Amizades em uma faculdade
+```{r}
+data("UKfaculty")
+UKfaculty
+plot(UKfaculty)
+comun = cluster_edge_betweenness(UKfaculty, directed = F)
+plot(comun, UKfaculty)
+```
+

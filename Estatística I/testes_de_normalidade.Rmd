@@ -1,0 +1,69 @@
+---
+Sessão 15 - Prática em R - Estatística I
+Testes de Normalidade
+---
+
+Repetir o experimento
+```{r}
+set.seed(123)
+```
+
+Geral mil variáveis normalmente distribuídas
+```{r}
+x = rnorm(1000)
+```
+
+Gráfico QQ
+```{r}
+# Rodar com ctrl + shift + enter
+qqnorm(x)
+# linha
+qqline(x)
+```
+
+Teste de Shapiro
+```{r}
+# Valor de p acima de 0.05, não há indício para a não confirmar a hipótese nula de dados normalmente distribuídos
+shapiro.test(x)
+```
+
+Histograma com linha de densidade
+```{r}
+# Rodar com ctrl + shift + enter
+hist(x, main = "")
+par(new = TRUE)
+plot(density(x), ylab = "", xlab = "", axes = F, lwd = 2.5)
+```
+
+Dados não normalmente distribuídos
+```{r}
+# Rodar com ctrl + shift + enter
+library(semTools)
+m = mvrnonnorm(1000, c(1, 2), matrix(c(10, 2, 2, 5), 2, 2), skewness = c(5, 2), kurtosis = c(3, 3))
+qqnorm(m)
+qqline(m)
+```
+
+Teste de Shapiro
+```{r}
+shapiro.test(m)
+```
+
+Histograma com linha de densidade
+```{r}
+# Rodar com ctrl + shift + enter
+hist(m, main = "")
+par(new = TRUE)
+plot(density(m), ylab = "", xlab = "", axes = F, lwd = 2.5)
+```
+
+
+
+
+
+
+
+
+
+
+

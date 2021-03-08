@@ -1,0 +1,31 @@
+---
+Sessão 30 - Prática em R - Machine Learning
+Codificação de Categorias
+---
+
+```{r}
+install.packages("mltools")
+install.packages("data.table")
+library(mltools)
+library(data.table)
+```
+
+Convertemos os dados Titanic para dataframe
+```{r}
+Titanic
+tit = as.data.frame(Titanic)
+tit
+```
+
+Data matrix é função nativa do R
+Label encoder de Class, Sex e Age
+```{r}
+labenc = data.matrix(tit[, 1:3])
+labenc
+```
+
+One hot encoding das mesmas colunas
+```{r}
+hotenco = one_hot(as.data.table(tit[, 1:3]))
+hotenco
+```

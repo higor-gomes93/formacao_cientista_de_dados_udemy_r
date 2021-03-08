@@ -1,0 +1,54 @@
+---
+Sessão 21 - Prática em R - Regressão Linear
+Faça Você Mesmo
+---
+
+Arquivo slr12.csv
+1 - Franquias
+  a. FraAnual: taxa anual
+  b. CusInic: investimento incial
+
+2 - Criar um modelo de regressão linear para prever qual será o investimento inicial necessário de uma franquia a partir da Taxa Anual
+cobrado pelo franqueador
+
+Carregando os dados
+```{r}
+dados = read.csv("slr12.csv", sep = ";")
+dados
+dim(dados)
+```
+
+Análise da correlação
+```{r}
+library(corrgram)
+cor(dados)
+corrgram(dados, order = TRUE, lower.panel = panel.shade, upper.panel = panel.pie, text.panel = panel.txt, main = "Franquias")
+```
+
+Análise gráfica
+```{r}
+plot(dados$CusInic ~ dados$FrqAnual, ylab = "Investimento Inicial", xlab = "Taxa Anual", main = "Franquias")
+```
+
+Criação do modelo
+Quero prever o custo do investimento inicial a partir dos dados da taxa anual
+```{r}
+modelo = lm(CusInic ~ FrqAnual, data = dados)
+modelo
+```
+
+Relação entre os dados e a linha de melhor ajuste
+```{r}
+plot(dados$CusInic ~ dados$FrqAnual, ylab = "Investimento Inicial", xlab = "Taxa Anual", main = "Franquias")
+abline(modelo)
+```
+
+Analisando o modelo
+```{r}
+summary(modelo)
+modelo$coefficients
+hist(modelo$residuals)
+modelo$fitted.values
+plot(modelo$fitted.values, dados$FrqAnual)
+```
+

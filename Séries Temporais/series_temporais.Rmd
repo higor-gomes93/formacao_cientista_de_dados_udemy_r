@@ -1,0 +1,76 @@
+---
+Sessão 27 - Prática em R - Séries Temporais
+Séries Temporais
+---
+
+```{r}
+install.packages("forecast")
+library(forecast)
+```
+
+Conhecendo os dados
+```{r}
+AirPassengers
+start(AirPassengers)
+end(AirPassengers)
+frequency(AirPassengers)
+```
+
+Gráficos
+```{r}
+# Executar com ctrl + shift + enter
+plot(AirPassengers)
+plot(aggregate(AirPassengers))
+```
+
+Gera uma janela
+```{r}
+subst = window(AirPassengers, start = c(1960, 1), end = c(1960, 12))
+subst
+plot(subst)
+```
+
+Decomposição
+```{r}
+dec = decompose(AirPassengers)
+dec
+```
+
+```{r}
+attributes(dec)
+dec$seasonal
+```
+
+Analisando os elementos da decomposição
+```{r}
+# Executar com o ctrl + shift + enter
+plot(dec)
+plot(dec$x)
+plot(dec$seasonal)
+plot(dec$trend)
+plot(dec$random)
+```
+
+Previsão 1 - Suavização exponencial
+```{r}
+ets = ets(AirPassengers)
+ets
+```
+
+Previsão
+```{r}
+previsao = forecast(ets, h = 12)
+plot(previsao)
+```
+
+Previsão 2 - Arima
+```{r}
+arima = auto.arima(AirPassengers)
+arima
+```
+
+Previsão
+```{r}
+previsao = forecast(arima, h = 12)
+plot(previsao)
+```

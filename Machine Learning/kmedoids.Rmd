@@ -1,0 +1,28 @@
+---
+Sessão 30 - Prática em R - Machine Learning
+K-Medoids
+---
+
+```{r}
+library(cluster)
+library(factoextra)
+```
+
+Gera o cluster
+```{r}
+cluster = pam(iris[, 1:4], k = 3)
+```
+
+Visualiza
+```{r}
+cluster
+plot(cluster)
+table(iris$Species, cluster$clustering)
+```
+
+Visualização com factoextra
+```{r}
+g = fviz_cluster(list(data = iris[, 1:4], cluster = cluster$cluster), ellipse.type = "norm", ggtheme = theme_bw(), main = "Cluster")
+plot(g)
+```
+

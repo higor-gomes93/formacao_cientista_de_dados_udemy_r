@@ -1,0 +1,42 @@
+---
+Sessão 18 - Prática em R - Estatística II
+Anova
+---
+
+Carregando os dados
+```{r}
+tratamento = read.csv("anova.csv", sep = ";")
+tratamento
+```
+
+Visualizamos a distribuição dos remédios por horas
+```{r}
+boxplot(tratamento$Horas ~ tratamento$Remedio)
+```
+
+Realizando análise de variância
+Observar valor de p maior que 0.05 (Pr(>F))
+Hipótese nula de que não há diferença significativa
+```{r}
+an = aov(Horas ~ Remedio, data = tratamento)
+summary(an)
+```
+
+Anova de dois fatores
+Nenhum valor de P mostra diferença significativa
+```{r}
+an = aov(Horas ~ Remedio * Sexo, data = tratamento)
+summary(an)
+```
+
+Se houver diferença, o teste de Tukey é executado
+```{r}
+tukey = TukeyHSD(an)
+tukey
+```
+
+Gráfico do teste
+```{r}
+plot(tukey)
+```
+

@@ -1,0 +1,47 @@
+---
+Sessão 36 - Prática em R - Grafos
+Visualização
+---
+
+```{r}
+library(igraph)
+```
+
+Recria grafo anterior
+```{r}
+grafo = graph(edges = c("Fernando", "Pedro", "José", "Antônio", "Fernando", "José", "Fernando", "Antônio"))
+V(grafo)$Peso = c(40, 30, 30, 25)
+E(grafo)$TipoAmizade = c("Amigo", "Inimigo", "Inimigo", "Amigo")
+E(grafo)$weight = c(1, 2, 1, 3)
+V(grafo)$type = "Humanos"
+```
+
+Várias formas de impressão
+```{r}
+# Tamanho do vértice de acordo com o peso
+plot(grafo, vertex.size = vertex_attr(grafo)$Peso)
+# Tamanho da aresta de acordo com o peso
+plot(grafo, vertex.size = vertex_attr(grafo)$Peso, edge.width = edge_attr(grafo)$weight)
+```
+
+```{r}
+# Cores aos vértices em um atributo
+vertex_attr(grafo)$Cor = c("Blue", "Red", "Yellow", "Green")
+# Plot com cores a partir do atributo
+plot(grafo, vertex.size = vertex_attr(grafo)$Peso, edge.width = edge_attr(grafo)$weight, vertex.color = vertex_attr(grafo)$Cor)
+```
+
+```{r}
+# Curvado, título e grame
+plot(grafo, vertex.size = vertex_attr(grafo)$Peso, edge.width = edge_attr(grafo)$weight, vertex.color = vertex_attr(grafo)$Cor, edge.curved = 0.4, frame = TRUE, main = "Grafo")
+# Vértice retângulo
+plot(grafo, vertex.size = vertex_attr(grafo)$Peso, edge.width = edge_attr(grafo)$weight, vertex.color = vertex_attr(grafo)$Cor, edge.curved = 0.4, frame = TRUE, main = "Grafo", vertex.shape = "square")
+```
+
+Grafo interativo
+```{r}
+# Grafo de relacionamentos
+grafo_2 = read_graph("Grafo.graphml", format = c("graphml"))
+tkplot(grafo_2)
+```
+

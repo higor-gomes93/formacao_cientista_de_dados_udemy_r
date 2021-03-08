@@ -1,0 +1,30 @@
+---
+Sessão 12 - Prática em R - Gráficos, Visualizações e Dashboards
+Tabelas
+---
+
+```{r}
+install.packages("stargazer")
+library(stargazer)
+```
+
+Formato Latex
+```{r}
+stargazer(iris)
+```
+
+Formato HTML
+```{r}
+stargazer(iris, type = "html")
+```
+
+Formato Texto
+```{r}
+stargazer(iris, type = "text")
+```
+
+Salva em Disco
+```{r}
+stargazer(women, out = "women.tex", summary = FALSE)
+```
+

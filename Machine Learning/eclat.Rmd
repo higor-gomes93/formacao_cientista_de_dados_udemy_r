@@ -1,0 +1,27 @@
+---
+Sessão 30 - Prática em R - Machine Learning
+Eclat
+---
+
+```{r}
+library(arules)
+library(arulesViz)
+```
+
+Transações
+```{r}
+transacoes <- read.transactions("transacoes.txt", format = "basket", sep = ",")
+image(transacoes)
+```
+
+Gera as regras
+```{r}
+regras = eclat(transacoes, parameter = list(minlen = 2))
+inspect(regras)
+```
+
+Visualização
+```{r}
+plot(regras, method = "graph", control = list(type = "items"))
+```
+

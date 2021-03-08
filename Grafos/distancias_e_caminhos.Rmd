@@ -1,0 +1,53 @@
+---
+Sessão 36 - Prática em R - Grafos
+Distâncias e Caminhos
+---
+
+```{r}
+library(igraph)
+```
+
+Criando o grafo
+```{r}
+dist = graph(edges = c("A", "C", "A", "B", "B", "E", "B", "F", "C", "D", "G", "H", "D", "H", "E", "H", "F", "G"), directed = TRUE)
+plot(dist)
+```
+
+Define pesos
+```{r}
+# Pesos nas arestas que vão representar as distâncias
+E(dist)$weight = c(2, 1, 2, 1, 2, 1, 1, 3, 1)
+plot(dist, edge.label = E(dist)$weight)
+tkplot(dist, edge.label = E(dist)$weight, vertex.color = "white")
+```
+
+Busca a distância
+```{r}
+# Calcula a distância mais curta entre dois vértices (calcula mas não mostra caminho)
+distances(dist, V(dist)$name == "A", V(dist)$name == "H")
+# Verifica no grafo
+plot(dist, edge.label = E(dist)$weight)
+# Busca o caminho mais curto
+# Output lista de vértices ou arestas, both retorna os dois
+caminho = shortest_paths(dist, V(dist)$name == "A", V(dist)$name == "H", output = c("both"))
+caminho$vpath
+# Conferindo
+plot(dist, edge.label = E(dist)$weight)
+```
+
+Criar grafo destacando o caminho mais curto
+```{r}
+# Percorre os vértices
+for (i in 1:length(V(dist))){
+  # Se estiver na lista de caminho mais curto, pinta de verde, se não, cinza
+  V(dist)$color[i] <- ifelse(i %in% as.vector(unlist(caminho$vpath)), "green", "grey")
+}
+
+for (i in 1:length(E(dist))){
+  # Se estiver na lista de caminho mais curto, pinta de verde, se não, cinza
+  E(dist)$color[i] <- ifelse(i %in% as.vector(unlist(caminho$epath)), "green", "grey")
+}
+
+plot(dist, edge.label = E(dist)$weight)
+```
+

@@ -1,0 +1,121 @@
+---
+Sessão 39 - Prática em R - Mineração de Texto e Processamento de Linguagem Natural
+Mineração de Texto
+---
+
+```{r}
+install.packages("tm")
+install.packages("textreadr")
+install.packages("wordcloud")
+library(tm)
+library(textreadr)
+library(wordcloud)
+library(RColorBrewer)
+```
+
+Criamos corpus
+```{r}
+# Fontes disponíveis
+getSources()
+# Formatos
+getReaders()
+# Criar corpus -> PCorpus(): físico; VCorpus(): volátil em memória
+# Pegamos dados da Wikipedia
+x = read_html("https://en.wikipedia.org/wiki/Artificial_intelligence")
+# Geramos um corpus
+corpus = VCorpus(VectorSource(x), readerControl = list(reader = readPlain, language = "eng"))
+```
+
+Explorando corpus
+```{r}
+# Resumo do corpus
+inspect(corpus)
+# Corpus de 1 a 100
+inspect(corpus[1:100])
+# Metadados do corpus
+meta(corpus[[1]])
+# Visualizar 1 corpus
+inspect(corpus[[2]])
+# Texto separado por linhas
+as.character(corpus[[2]])
+# Só uma linha
+as.character(corpus[[200]])[1]
+```
+
+Tratamentos diversos
+```{r}
+# tm_map para executar transformações
+stopwords("portuguese")
+# Remove
+corpus = tm_map(corpus, removeWords, stopwords("english"))
+# Excesso de espaços em branco
+corpus = tm_map(corpus, stripWhitespace)
+# Pontuação
+corpus = tm_map(corpus, removePunctuation)
+# Números
+corpus = tm_map(corpus, removeNumbers)
+```
+
+Primeiro Wordcloud
+```{r}
+wordcloud(corpus, max.words = 50, random.order = T, colors = rainbow(8), rot.per = 0.5, use.r.layout = T)
+```
+
+Matriz de termos frequentes
+```{r}
+# Matriz de palavras frequentes
+# TermDocumentMatrix -> termos na linha
+# DocumentMatrix -> documentos na linha
+freq = TermDocumentMatrix(corpus)
+freq
+# Transformando em matrix do R
+matriz = as.matrix(freq)
+# Ordeno de acordo com a frequência
+matriz = sort(rowSums(matriz), decreasing = TRUE)
+# Data frame
+matriz = data.frame(word = names(matriz), freq = matriz)
+head(matriz, n = 100)
+# Encontra termos mais frequentes
+findFreqTerms(freq, 500, Inf)
+removeSparseTerms(freq, 0.4)
+```
+
+Nova nuvem
+```{r}
+wordcloud(matriz$word, matriz$freq, max.words = 50, random.order = T, colors = rainbow(8), rot.per = 0.5, use.r.layout = T)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,47 @@
+---
+Sessão 30 - Prática em R - Machine Learning
+Árvores de Decisão para Regressão
+---
+
+
+```{r}
+library(rpart)
+library(forecast)
+```
+
+Conjunto de Dados
+```{r}
+iris
+```
+
+Criamos o modelo prevendo Sepal.Length
+```{r}
+modelo = rpart(Sepal.Length ~ Sepal.Width + Petal.Length + Petal.Width + Species, data = iris)
+modelo
+summary(modelo)
+```
+
+Visualização
+```{r}
+# Executar com ctrl + shift + enter
+plot(modelo)
+text(modelo)
+```
+
+Previsão
+```{r}
+predicao = predict(modelo, iris)
+head(predicao)
+```
+
+Comparamos previsão com dados reais
+```{r}
+comparacao = cbind(predicao, iris$Sepal.Length, predicao - iris$Sepal.Length)
+head(comparacao)
+```
+
+Verificamos métricas de erro de nosso modelo
+```{r}
+accuracy(predicao, iris$Sepal.Length)
+```
+
